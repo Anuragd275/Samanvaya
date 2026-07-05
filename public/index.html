@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Central Schema Mapper</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b, #111827);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: #3b82f655;
+            filter: blur(140px);
+            top: -150px;
+            right: -120px;
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            background: #06b6d455;
+            filter: blur(150px);
+            bottom: -150px;
+            left: -120px;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 60px 30px;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 70px;
+            min-height: 90vh;
+            flex-wrap: wrap;
+        }
+
+        .left {
+            flex: 1;
+            min-width: 320px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, .15);
+            border: 1px solid rgba(96, 165, 250, .3);
+            color: #93c5fd;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 58px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .gradient {
+            background: linear-gradient(90deg, #38bdf8, #60a5fa, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            font-size: 20px;
+            line-height: 1.8;
+            margin-bottom: 35px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .secondary {
+            border: 1px solid rgba(255, 255, 255, .15);
+            color: white;
+            background: rgba(255, 255, 255, .04);
+        }
+
+        .secondary:hover {
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .right {
+            flex: 1;
+            min-width: 340px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, .06);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+        }
+
+        .window-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .red {
+            background: #ef4444;
+        }
+
+        .yellow {
+            background: #facc15;
+        }
+
+        .green {
+            background: #22c55e;
+        }
+
+        .code {
+            font-family: 'Fira Code', monospace;
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 18px;
+            color: #7dd3fc;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .arrow {
+            text-align: center;
+            font-size: 34px;
+            color: #60a5fa;
+            margin: 18px 0;
+        }
+
+        .mongo {
+            background: #052e16;
+            color: #86efac;
+            border-radius: 12px;
+            padding: 18px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .08);
+            padding: 28px;
+            border-radius: 18px;
+            transition: .3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .feature h3 {
+            margin-bottom: 12px;
+            color: #7dd3fc;
+        }
+
+        .feature p {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 70px;
+            color: #94a3b8;
+            font-size: 14px;
+            padding-bottom: 25px;
+        }
+
+        @media(max-width:900px) {
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .buttons {
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 44px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <section class="hero">
+
+            <div class="left">
+
+                <span class="badge">
+                    Internal Transformation Service
+                </span>
+
+                <h1>
+                    <span class="gradient">Central Schema Mapper</span>
+                </h1>
+
+                <p class="subtitle">
+                    A centralized transformation engine that converts a simple
+                    <strong>Amazon ASIN</strong> into a fully normalized product schema,
+                    making data ingestion consistent across Telegram scrapers,
+                    website scrapers, and downstream services.
+                </p>
+
+                <div class="buttons">
+                    <a href="/docs" class="btn primary">API Documentation</a>
+                    <a href="/v1/health" class="btn secondary">View Health Status</a>
+                </div>
+
+            </div>
+
+            <div class="right">
+
+                <div class="card">
+
+                    <div class="window-header">
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot green"></div>
+                    </div>
+
+                    <div class="code">
+                        POST /transform
+
+                        {
+                        "asin": "B0FQFPHB1W"
+                        }
+                    </div>
+
+                    <div class="arrow">
+                        ↓
+                    </div>
+
+                    <div class="mongo">
+                        • Fetch Product Metadata
+
+                        → Normalize Schema
+
+                        → Validate Fields
+
+                        → Add Timestamps
+
+                        → Insert into MongoDB
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="features">
+
+            <div class="feature">
+                <h3>Unified Schema</h3>
+                <p>
+                    Every scraper sends only the Amazon ASIN.
+                    The mapper generates a standardized document structure,
+                    ensuring consistency across all data sources.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Centralized Logic</h3>
+                <p>
+                    Product enrichment, field mapping, normalization,
+                    and validation are handled in one place,
+                    eliminating duplicate code across services.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>MongoDB Ready</h3>
+                <p>
+                    Outputs a fully validated product document ready
+                    for insertion into MongoDB with minimal downstream
+                    processing.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Scraper Integration</h3>
+                <p>
+                    Telegram channel scrapers and website scrapers only
+                    need to submit an ASIN. Everything else is handled
+                    automatically by the mapper.
+                </p>
+            </div>
+
+        </section>
+
+        <div class="footer">
+            Central Schema Mapper • Transform Once • Store Everywhere
+            <br />
+            Built with ❤️ by Anurag Dubey
+        </div>
+
+    </div>
+
+</body>
+
+</html>
