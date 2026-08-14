@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+import { getItemDetails } from './middleware/fetchData';
+import { insertData } from './middleware/insertData';
 
 const router = express.Router();
 
